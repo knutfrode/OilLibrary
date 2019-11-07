@@ -25,9 +25,9 @@ def get_adhesions_by_weathering(oil_columns, field_indexes, weathering):
 
     props = get_oil_properties_by_category(oil_columns, field_indexes,
                                            'adhesion_g_cm2_ests_1996')
-    prop_names = props.keys()
+    prop_names = list(props.keys())
 
-    for idx, vals in enumerate(zip(*props.values())):
+    for idx, vals in enumerate(zip(*list(props.values()))):
         adhesion_kwargs = build_adhesion_kwargs(prop_names, vals,
                                                 weathering[idx])
         adhesions.append(adhesion_kwargs)
@@ -44,7 +44,7 @@ def build_adhesion_kwargs(prop_names, values, weathering):
         - values: A list of Excel cell objects representing the properties.
         - weathering: The fractional oil weathering amount.
     '''
-    adhesion_kwargs = dict(zip(prop_names, [v[0].value for v in values]))
+    adhesion_kwargs = dict(list(zip(prop_names, [v[0].value for v in values])))
 
     adhesion_kwargs['weathering'] = weathering
 

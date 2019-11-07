@@ -421,8 +421,6 @@ def manually_recategorize_oils(session, settings):
     logger.info('Re-categorizing oils in our blacklist')
     rowcount = 0
     for r in fd.readlines():
-        r = [unicode(f, 'utf-8') if f is not None else f
-             for f in r]
         recategorize_oil(session, fd.file_columns, r)
         rowcount += 1
 
@@ -434,7 +432,7 @@ def manually_recategorize_oils(session, settings):
 def recategorize_oil(session, file_columns, row_data):
     file_columns = [slugify_filename(c).lower()
                     for c in file_columns]
-    row_dict = dict(zip(file_columns, row_data))
+    row_dict = dict(list(zip(file_columns, row_data)))
 
     try:
         oil_obj = (session.query(Oil)
